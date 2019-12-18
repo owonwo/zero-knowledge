@@ -16,7 +16,7 @@ const Header = () => {
                             </p>
                         </li>
                         <li className="flex items-center">
-                            <img src="/assets/logo-ether.png" className="icons" />
+                            <img src="/assets/logo-ether.png" className="icons" alt="ether"/>
                             <span>0x291F1ic810…2BgSdifB7</span>
                         </li>
                         <li className="flex items-center">

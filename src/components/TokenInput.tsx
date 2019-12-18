@@ -1,45 +1,65 @@
 // @ts-ignore
-import _ from "lodash";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import arrowLeft from "../assets/arrow-left.svg";
 
 type TokenPropType = {
   firstValue: number;
   secondValue: number;
   children: any;
+  canEdit?: boolean;
   onSend: Function;
+  allowEdit?: Function;
 };
 
 const TokenInput = (props: TokenPropType) => {
-  const [editMode, setEditMode] = useState(false);
+  const editMode = props.canEdit;
   const [digit, setDigit] = useState(props.firstValue);
+  const input = useRef(null);
+  
+  const setEditMode = (a?: boolean) => props.allowEdit && props.allowEdit();
+  const canEdit = (cb: Function) => (...args: any[]) => (props.canEdit) && cb(...args);
+
+  useEffect(() => {
+    canEdit((a: any) => {
+      // console.log('The input at first', a);
+      if (a) a.current.focus();
+    })(input);
+  })
 
   return (
-    <div className="token flex items-center py-1">
+    <div className="token flex items-center py-1" 
+      onMouseEnter={() => setEditMode()}
+    >
       {props.children}
       <input
+        ref={input}
         value={digit}
-        onChange={(e: any) => setDigit(e.target.value)}
-        onFocus={() => setEditMode(!editMode)}
-        className="appearance-none text-base w-12 text-right rounded border border-transparent 
-                    focus:border-gray-600 hover:border-gray-600"
+        disabled={!props.canEdit}
+        onChange={canEdit((e: any) => setDigit(e.target.value))}
+        onFocus={canEdit(() => setEditMode(!editMode))}
+        className="appearance-none text-base w-12 text-right rounded border"
       />
       <div className="h-5 flex-shrink-0 bg-gray-400 border mx-1"></div>
       {!editMode ? (
         <span className="px-1 text-base">{props.secondValue}</span>
       ) : (
-        <span
+        <button
+          className="appearance-none"
           onClick={() => {
             setEditMode(!editMode);
             props.onSend();
           }}
         >
           <img src={arrowLeft} className="ml-4" alt="send" style={{width: 15, height: 15}}/>
-        </span>
+        </button>
       )}
     </div>
   );
 };
+
+TokenInput.defaultProps = {
+  canEdit: false
+}
 
 type CTProps = {
   color: string,

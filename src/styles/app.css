@@ -6,6 +6,16 @@ body {
     color: #828282;
 }
 
+input {
+    border-radius: 4px;
+    border: solid 1px #B0B0B0;
+}
+
+input:disabled {
+    border-color: transparent;
+    background-color: transparent;
+}
+
 .user-list:hover .user-item {
     opacity: .25;
 }

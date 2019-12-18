@@ -1,8 +1,15 @@
 import React from 'react'
 
-const Card = (props: any ) => {
+type TxCardProps = {
+    active: boolean;
+    children: any;
+}
+
+const Card = (props: TxCardProps ) => {
+    const fade = (a: boolean) => a ? 'shadow-2xl' : 'opacity-75 shadow-lg pointer-events-none';
+
     return (
-        <div className="choose-token-container flex flex-1 w-full bg-white shadow-2xl rounded-lg p-10">
+        <div className={`${fade(props.active)} choose-token-container flex flex-1 w-full bg-white rounded-lg p-10`}>
             { props.children }
         </div>
     )

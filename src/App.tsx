@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 // @ts-ignore
 // import { Provider, useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+// import { BrowserRouter as Router } from "react-router-dom";
 
 import Header from "./components/Header";
 import Card from "./components/Card";
@@ -11,15 +11,7 @@ import UserList from "./components/UserList";
 import StaticContent from "./components/StaticContent";
 import Preloader from "./components/Preloader";
 
-// import store from './store/index';
-// views
-// import Home from "./views/Home";
-// import Products from "./views/Products";
-// import NotFound from "./views/NotFound";
-// import { SingleProduct } from "./views/SingleProduct";
-
 function App() {
-  // store.subscribe(() => store.getState());
   const fakePairs: [string, string, number, number][] = [
     ["RBT", "#AF1500", 200, 200],
     ["AAAA", "#AF9E00", 300, 400],
@@ -28,17 +20,36 @@ function App() {
     ["DAI", "#4D00AF", 200, 200],
     ["MKR", "#AF005E", 500, 500]
   ];
-  const [state, setState] = useState({
-    stage: 1
+  const [state, setState]: [any, Function] = useState({
+    stage: 1,
+    current: null,
+    sending: false,
   });
+
   const stage = (s_: number) => () => setState({ ...state, stage: s_ });
+
   const isStage = (s_: number) => state.stage === s_;
+  
   const fade = (s_: number) => isStage(s_) || "opacity-25";
+  
+  const allowEdit = (current: string | null) => () => {
+    // console.log('changing to the ' + current);
+    setState({ ...state, current: current });
+  }
 
   type User = {
     name: string;
     image: string;
   };
+
+  const sentTo = (user: User) => () => {
+    console.log('Sending to ' + user.name);
+    setState({ ...state, sending: true });
+
+    setTimeout(() => {
+      setState({ ...state, sending: false, stage: 1 });
+    }, 3000);
+  }
 
   const users: User[] = [
     { name: "Online Bot", image: "/assets/bot.png" },
@@ -64,6 +75,8 @@ function App() {
                       key={index}
                       firstValue={a}
                       secondValue={b}
+                      canEdit={(label === state.current)}
+                      allowEdit={allowEdit(label)}
                       onSend={stage(2)}
                     >
                       <CircularText color={color} label={label} />
@@ -76,6 +89,7 @@ function App() {
                       key={index}
                       firstValue={a}
                       secondValue={b}
+                      allowEdit={allowEdit(label)}
                       onSend={stage(2)}
                     >
                       <CircularText label={label} color={color} />
@@ -84,11 +98,11 @@ function App() {
                 </TokenGroup>
               </div>
             </Card>
-            <div className="acc-info text-sm p-4">
+            {state.sending && <div className="acc-info text-sm p-4">
               <div className="mt-2">
                 <p>Send another token</p>
               </div>
-            </div>
+            </div>}
           </div>
           <div className="flex-1 flex flex-col max-w-md">
             <Card active={isStage(2)}>
@@ -101,12 +115,12 @@ function App() {
                 <div className="text-sm mb-2">Search for user...</div>
                 <ul className="user-list flex flex-col w-5/6">
                   {users.map((user, index) => (
-                    <UserList key={index} {...user} onSend={stage(1)} />
+                    <UserList key={index} {...user} onSend={sentTo(user)} />
                   ))}
                 </ul>
               </div>
             </Card>
-            <div className="acc-info text-sm p-4">
+            {state.sending && <div className="acc-info text-sm p-4">
               <div className="flex">
                 <Preloader />
                 <span className="ml-2">The transaction is being mined</span>
@@ -125,7 +139,7 @@ function App() {
                   difference!
                 </p>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
 
