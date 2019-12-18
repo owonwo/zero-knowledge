@@ -1,0 +1,51 @@
+body {
+    background-color: #FBF6F6;
+}
+
+.text-gray {
+    color: #828282;
+}
+
+.user-list:hover .user-item {
+    opacity: .25;
+}
+
+.user-list:hover .user-item:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.bg-green {
+    background-color: #32EB44;
+}
+
+.acc-info .icons {
+    border-radius: 50%;
+    width: 10px;
+    margin-right: .5rem;
+    height: 10px;
+    flex: 0 0 10px;
+    object-fit: cover;
+}
+
+.acc-info .icons.icon-lg {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+}
+
+.preloader {
+    width: 20px;
+    height: 20px;
+    transform-origin: center center;
+    animation: rotate 2s forwards infinite running linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
