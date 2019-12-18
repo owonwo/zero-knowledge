@@ -1,11 +1,12 @@
 // @ts-ignore
 import _ from "lodash";
 import React, { useState } from "react";
+import arrowLeft from "../assets/arrow-left.svg";
 
 type TokenPropType = {
-  label: string;
   firstValue: number;
   secondValue: number;
+  children: any;
   onSend: Function;
 };
 
@@ -15,13 +16,7 @@ const TokenInput = (props: TokenPropType) => {
 
   return (
     <div className="token flex items-center py-1">
-      <span
-        className="color4 mr-5 inline-flex justify-center items-center 
-                text-xs uppercase border border-1 rounded-full p-1 mr-2"
-        style={{ width: 40, height: 40, lineHeight: 1.5 }}
-      >
-        {props.label}
-      </span>
+      {props.children}
       <input
         value={digit}
         onChange={(e: any) => setDigit(e.target.value)}
@@ -39,12 +34,29 @@ const TokenInput = (props: TokenPropType) => {
             props.onSend();
           }}
         >
-          <img src="/assets/arrow-left.svg" className="ml-4" alt="send" style={{width: 15, height: 15}}/>
+          <img src={arrowLeft} className="ml-4" alt="send" style={{width: 15, height: 15}}/>
         </span>
       )}
     </div>
   );
 };
+
+type CTProps = {
+  color: string,
+  label: string,
+}
+
+export const CircularText = ({ color, label }: CTProps) => {
+  return (
+    <span
+        className="color4 mr-5 inline-flex justify-center items-center 
+          text-xs uppercase border border-1 rounded-full p-1 mr-2"
+        style={{ color: color, borderColor: color, width: 40, height: 40, lineHeight: 1.5 }}
+      >
+        {label}
+    </span>
+  );
+}
 
 export const TokenGroup = (props: any) => {
   return (

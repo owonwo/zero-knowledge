@@ -1,4 +1,5 @@
 import React from 'react';
+import sendIcon from "../assets/send-icon.svg";
 
 type UserListProp = {
     name: string,
@@ -12,7 +13,7 @@ const UserList = ({ name, image, onSend }: UserListProp) => {
         onClick={() => onSend()}>
         <img src={image} alt={name + ' image'}/>
         <span className="flex-1 name px-5">{name}</span>
-        <img src="/assets/send-icon.svg" alt="" className="w-4 h-4" />
+        <img src={sendIcon} alt="" className="w-4 h-4" />
     </li>
     );
 }
