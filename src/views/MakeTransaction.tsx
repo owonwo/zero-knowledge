@@ -7,15 +7,6 @@ import UserList from "../components/UserList";
 import StaticContent from "../components/StaticContent";
 import Preloader from "../components/Preloader";
 
-const fakePairs: [string, string, number, number][] = [
-  ["RBT", "#AF1500", 200, 200],
-  ["AAAA", "#AF9E00", 300, 400],
-  ["BMT", "#00AF5B", 500, 300],
-  ["GNO", "#0066AF", 100, 100],
-  ["DAI", "#4D00AF", 200, 200],
-  ["MKR", "#AF005E", 500, 500]
-];
-
 type User = {
   name: string;
   image: string;
@@ -27,6 +18,15 @@ const users: User[] = [
 ];
 
 const MakeTransaction = () => {
+  const fakePairs: [string, string, number, number][] = [
+    ["RBT", "#AF1500", 200, 200],
+    ["AAAA", "#AF9E00", 300, 400],
+    ["BMT", "#00AF5B", 500, 300],
+    ["GNO", "#0066AF", 100, 100],
+    ["DAI", "#4D00AF", 200, 200],
+    ["MKR", "#AF005E", 500, 500]
+  ];
+
   const [state, setState]: [any, Function] = useState({
     stage: 1,
     current: null,
@@ -85,6 +85,7 @@ const MakeTransaction = () => {
                     key={index}
                     firstValue={a}
                     secondValue={b}
+                    canEdit={label === state.current}
                     allowEdit={allowEdit(label)}
                     onSend={stage(2)}
                   >

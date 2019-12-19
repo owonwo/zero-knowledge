@@ -22,7 +22,7 @@ const fakePairs: [string, string, number][] = [
     ["AAAA", "#AF9E00", 1300],
     ["BMT", "#00AF5B", 1500],
     ["DAI", "#4D00AF", 65200],
-    ["BAT", "#AF005E", 2500] 
+    ["BAT", "#AF005E", 2500]
 ];
 
 const txArray = [
