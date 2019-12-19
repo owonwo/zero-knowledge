@@ -71,16 +71,20 @@ TokenInput.defaultProps = {
 type CTProps = {
   color: string;
   label: string;
+  fill?: boolean;
 };
 
-export const CircularText = ({ color, label }: CTProps) => {
+export const CircularText = ({ color, label, fill }: CTProps) => {
+  const variant = fill 
+    ? ({ backgroundColor: color, color: 'white', border: 'none' })
+    : ({ color: color, borderColor: color });
+
   return (
     <span
-      className="color4 mr-5 inline-flex justify-center items-center 
-          text-xs uppercase border border-1 rounded-full p-1 mr-2"
+      className="mr-5 inline-flex justify-center items-center 
+          text-xs uppercase border rounded-full p-1 mr-2"
       style={{
-        color: color,
-        borderColor: color,
+        ...variant,
         width: 40,
         height: 40,
         flex: '0 0 40px',
@@ -91,6 +95,10 @@ export const CircularText = ({ color, label }: CTProps) => {
     </span>
   );
 };
+
+CircularText.defaultProps = {
+  fill: false
+}
 
 export const TokenGroup = (props: any) => {
   return (
@@ -105,7 +113,7 @@ export const TokenInput2 = (props: any) => {
   return (
     <div className="zk-token-input flex justify-between items-center rounded-lg p-2 my-4">
       <div className="flex-1">
-        <CircularText label={props.name} color={props.color} />
+        <CircularText label={props.name} fill={true} color={props.color} />
       </div>
       <input type="text" className="appearance-none self-stretch border-none px-3 w-32 py-1 bg-gray-100 rounded-lg" />
       <span className="color5 flex-1 py-1 inline-block px-4">
