@@ -15,19 +15,21 @@ const TokenInput = (props: TokenPropType) => {
   const editMode = props.canEdit;
   const [digit, setDigit] = useState(props.firstValue);
   const input = useRef(null);
-  
+
   const setEditMode = (a?: boolean) => props.allowEdit && props.allowEdit();
-  const canEdit = (cb: Function) => (...args: any[]) => (props.canEdit) && cb(...args);
+  const canEdit = (cb: Function) => (...args: any[]) =>
+    props.canEdit && cb(...args);
 
   useEffect(() => {
     canEdit((a: any) => {
       // console.log('The input at first', a);
       if (a) a.current.focus();
     })(input);
-  })
+  });
 
   return (
-    <div className="token flex items-center py-1" 
+    <div
+      className="token flex items-center py-1"
       onMouseEnter={() => setEditMode()}
     >
       {props.children}
@@ -50,7 +52,12 @@ const TokenInput = (props: TokenPropType) => {
             props.onSend();
           }}
         >
-          <img src={arrowLeft} className="ml-4" alt="send" style={{width: 15, height: 15}}/>
+          <img
+            src={arrowLeft}
+            className="ml-4"
+            alt="send"
+            style={{ width: 15, height: 15 }}
+          />
         </button>
       )}
     </div>
@@ -59,30 +66,64 @@ const TokenInput = (props: TokenPropType) => {
 
 TokenInput.defaultProps = {
   canEdit: false
-}
+};
 
 type CTProps = {
-  color: string,
-  label: string,
-}
+  color: string;
+  label: string;
+};
 
 export const CircularText = ({ color, label }: CTProps) => {
   return (
     <span
-        className="color4 mr-5 inline-flex justify-center items-center 
+      className="color4 mr-5 inline-flex justify-center items-center 
           text-xs uppercase border border-1 rounded-full p-1 mr-2"
-        style={{ color: color, borderColor: color, width: 40, height: 40, lineHeight: 1.5 }}
-      >
-        {label}
+      style={{
+        color: color,
+        borderColor: color,
+        width: 40,
+        height: 40,
+        flex: '0 0 40px',
+        lineHeight: 1.5
+      }}
+    >
+      {label}
     </span>
   );
-}
+};
 
 export const TokenGroup = (props: any) => {
   return (
     <div className="private-token-cont mt-8">
       <p className="text-sm mb-2">{props.name}</p>
       <div className="token-cont">{props.children}</div>
+    </div>
+  );
+};
+
+export const TokenInput2 = (props: any) => {
+  return (
+    <div className="zk-token-input flex justify-between items-center rounded-lg p-2 my-4">
+      <div className="flex-1">
+        <CircularText label={props.name} color={props.color} />
+      </div>
+      <input type="text" className="appearance-none self-stretch border-none px-3 w-32 py-1 bg-gray-100 rounded-lg" />
+      <span className="color5 flex-1 py-1 inline-block px-4">
+        { props.value }
+      </span>
+    </div>
+  )
+}
+
+export const TokenCard = (props: any) => {
+  return (
+    <div className="zk-t-balance-cont mx-3 mb-4">
+      <div className="zk-token-cont text-sm py-2">
+        <p>{props.caption}</p>
+      </div>
+      <div className="px-2">
+        {props.children}
+      </div>
     </div>
   );
 };
